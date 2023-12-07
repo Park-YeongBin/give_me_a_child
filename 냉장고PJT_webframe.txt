@@ -1,0 +1,43 @@
+<Django web frame 설정 방법>
+
+1. PyCharm New Project 생성
+ 압축파일 xray_chest.zip 풀기 후 파이참 -> New Project -> Location 에서 압축품 폴더 선정 -> interpreter 설정 -> Create -> 팝업 창 뜨면  Create From Existing Sorces 선택 
+
+2. Model 옮기기
+ 압축파일 model.zip 풀어서 C:\workplace_sjs/xray_chest/mypatient/model/ 에 옮기기 (각자 PC 마다 경로 다르니 수정하실 것)
+
+3. mysql 패키지 설치
+ - conda install -c anaconda pymysql <Anaconda Prompt>
+ - conda install -c conda-forge mysqlclient <Anaconda Prompt : 내 PC 설치안되서 >
+ - pip install mysqlclient <PyCharm Terminal 에서 인스톨함>
+ 
+4. mariaDB 연동하기
+
+ - HeidiSQL 로그인(사용자:root / 암호:123456789) 후 DB 만들기 
+       <새쿼리탭 -> CREATE DATABASE if not exists xray ;>   
+ - Django -> settings.py 수정 
+    <변경할 코드>
+    DATABASES = {
+   'default': {
+       'ENGINE': 'django.db.backends.mysql',
+       'NAME': 'XXXX', # HeidiSQL 에서 만든 DB이름  
+       'USER': 'root', # id  
+       'PASSWORD': '123456789', # password
+       'HOST': 'localhost', # host
+      'PORT': '3306', # port
+       }
+      } 
+5. HeidiSQL 에서 DB 확인 방법 
+   <USE xray; ->  회원DB : SELECT * FROM mymember_member ;   
+                        환자 DB : SELECT * FROM mypatient_patient ;> 
+
+6. View.py 수정 (이미지 업로드 폴더 경로) 
+  mypatient / view.py 에서 
+  -38번 라인 
+   UPLOAD_DIR='C:/workplace_sjs/xray_chest - Git/mypatient/static/images/'  -> path 수정
+
+7. Django Migrate & runserver
+  >python manage.py makemigrations
+  >python manage.py migrate
+  >python manage.py runserver 
+ 
